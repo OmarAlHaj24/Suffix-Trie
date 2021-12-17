@@ -1,12 +1,7 @@
 #include <iostream>
 using namespace std;
 
-class LinkedList;
-
-struct SuffixTrieNode{
-    LinkedList* nodeList = NULL;
-    int endOfWord = -1;
-};
+struct  SuffixTrieNode;
 
 struct Node{
     char nodeChar = ' ';
@@ -61,6 +56,11 @@ public:
     }
 };
 
+struct SuffixTrieNode{
+    LinkedList* nodeList = new LinkedList();
+    int endOfWord = -1;
+};
+
 class SuffixTrie{
 private:
     SuffixTrieNode* root;
@@ -88,5 +88,12 @@ public:
 };
 
 int main() {
-    SuffixTrie t("bananabanaba$");
+   // SuffixTrie t("bananabanaba$");
+    LinkedList test;
+    Node* temp = new Node;
+    temp->nodeChar = 'i';
+    test.add(temp);
+    SuffixTrieNode* temp2 = test.getNode('i');
+    if(temp2 != NULL) cout << "HI";
+    if(temp2 == NULL) cout << "HI2";
 }
