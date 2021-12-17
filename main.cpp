@@ -1,40 +1,55 @@
 #include <iostream>
+
 using namespace std;
 
-struct  SuffixTrieNode;
+struct SuffixTrieNode;
 
-struct Node{
+struct Node {
     char nodeChar = ' ';
-    SuffixTrieNode* data = NULL;
-    Node* next = NULL;
-    Node* prv = NULL;
+    SuffixTrieNode *data = NULL;
+    Node *next = NULL;
+    Node *prv = NULL;
 };
 
-class LinkedList{
+class LinkedList {
 private:
-    Node* head = NULL;
-    Node* tail = NULL;
+    Node *head = NULL;
+    Node *tail = NULL;
 
 public:
-    void add(Node* newData){
-        Node* newNode = newData;
+    LinkedList()
+    {
+        head = NULL;
+        tail = NULL;
+    }
+
+    void add(Node *newData)
+    {
+        Node *newNode = newData;
         //newNode->data = newData;
-        if(head == NULL){
+        if (head == NULL)
+        {
             head = tail = newNode;
-        }else{
+        }
+        else
+        {
             tail->next = newNode;
             newNode->prv = tail;
             tail = newNode;
         }
     }
 
-    SuffixTrieNode* getNode(char inputChar){
-        if(head == NULL){
+    SuffixTrieNode *getNode(char inputChar)
+    {
+        if (head == NULL)
+        {
             return NULL;
         }
-        Node* temp = head;
-        while(temp != NULL){
-            if(temp->nodeChar == inputChar){
+        Node *temp = head;
+        while (temp != NULL)
+        {
+            if (temp->nodeChar == inputChar)
+            {
                 return temp->data;
             }
             temp = temp->next;
@@ -42,36 +57,44 @@ public:
         return NULL;
     }
 
-    Node* getHead(){
+    Node *getHead()
+    {
         return head;
     }
 
-    ~LinkedList(){
-        Node* temp = head;
-        while(temp != NULL){
-            Node* toDelete = temp;
+    ~LinkedList() {
+        Node *temp = head;
+        while (temp != NULL)
+        {
+            Node *toDelete = temp;
             temp = temp->next;
             delete toDelete;
         }
     }
 };
 
-struct SuffixTrieNode{
-    LinkedList* nodeList = new LinkedList();
+struct SuffixTrieNode
+        {
+    LinkedList *nodeList = new LinkedList();
     int endOfWord = -1;
 };
 
-class SuffixTrie{
+class SuffixTrie {
 private:
-    SuffixTrieNode* root;
+    SuffixTrieNode *root;
 public:
-    SuffixTrie(string input){
-        for(int i = 0; i < input.size(); i++){
-            SuffixTrieNode* tempRoot = root;
-            for(int j = i; j < input.size(); j++){
-                SuffixTrieNode* temp = tempRoot->nodeList->getNode(input[j]);
-                if(temp == NULL){
-                    Node* tempNode = new Node;
+    SuffixTrie(string input)
+    {
+        root = new SuffixTrieNode;
+        for (int i = 0; i < input.size(); i++)
+        {
+            SuffixTrieNode *tempRoot = root;
+            for (int j = i; j < input.size(); j++)
+            {
+                SuffixTrieNode *temp = tempRoot->nodeList->getNode(input[j]);
+                if (temp == NULL)
+                {
+                    Node *tempNode = new Node;
                     tempNode->nodeChar = input[j];
                     tempNode->data = new SuffixTrieNode;
                     tempRoot->nodeList->add(tempNode);
@@ -82,18 +105,48 @@ public:
             tempRoot->endOfWord = i;
         }
     }
-    void search(string input){
 
+    void Search(string input)
+    {
+        SuffixTrieNode *temp = root;
+        for (int i = 0; i < input.size(); i++)
+        {
+            temp = temp->nodeList->getNode(input[i]);
+            if (temp == NULL)
+                break;
+
+        }
+        if (temp == NULL)
+        {
+            cout << "Not Found";
+        } else {
+            printIndex(temp);
+        }
+        cout << endl;
+    }
+
+    void printIndex(SuffixTrieNode *node)
+    {
+        Node *tempNode = node->nodeList->getHead();
+        while (tempNode != NULL) {
+            if (tempNode->data->endOfWord != -1)
+            {
+                cout << tempNode->data->endOfWord << " ";
+            }
+            else
+            {
+                printIndex(tempNode->data);
+            }
+            tempNode = tempNode->next;
+        }
     }
 };
 
 int main() {
-   // SuffixTrie t("bananabanaba$");
-    LinkedList test;
-    Node* temp = new Node;
-    temp->nodeChar = 'i';
-    test.add(temp);
-    SuffixTrieNode* temp2 = test.getNode('i');
-    if(temp2 != NULL) cout << "HI";
-    if(temp2 == NULL) cout << "HI2";
+    // Construct a suffix trie containing all suffixes of "bananabanaba$"
+    //            0123456789012
+    SuffixTrie t("bananabanaba$");
+    t.Search("ana"); // Prints: 1 3 7
+    t.Search("naba"); // Prints: 4 8
+    return 0;
 }
