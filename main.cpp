@@ -1,3 +1,9 @@
+/**
+ * Alaa Mahmoud Ebrahim 20190105
+ * Rana Ihab Ahmed      20190207
+ * Omar Khaled Alhaj    20190351
+ */
+
 #include <iostream>
 
 using namespace std;
@@ -62,7 +68,8 @@ public:
         return head;
     }
 
-    ~LinkedList() {
+    ~LinkedList()
+    {
         Node *temp = head;
         while (temp != NULL)
         {
@@ -73,8 +80,7 @@ public:
     }
 };
 
-struct SuffixTrieNode
-        {
+struct SuffixTrieNode{
     LinkedList *nodeList = new LinkedList();
     int endOfWord = -1;
 };
@@ -119,7 +125,9 @@ public:
         if (temp == NULL)
         {
             cout << "Not Found";
-        } else {
+        }
+        else
+            {
             printIndex(temp);
         }
         cout << endl;
@@ -128,7 +136,8 @@ public:
     void printIndex(SuffixTrieNode *node)
     {
         Node *tempNode = node->nodeList->getHead();
-        while (tempNode != NULL) {
+        while (tempNode != NULL)
+        {
             if (tempNode->data->endOfWord != -1)
             {
                 cout << tempNode->data->endOfWord << " ";
@@ -140,9 +149,14 @@ public:
             tempNode = tempNode->next;
         }
     }
+    ~SuffixTrie()
+    {
+        delete root;
+    }
 };
 
-int main() {
+int main()
+{
     // Construct a suffix trie containing all suffixes of "bananabanaba$"
     //            0123456789012
     SuffixTrie t("bananabanaba$");
