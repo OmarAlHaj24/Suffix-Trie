@@ -21,9 +21,9 @@ private:
     Node* tail = NULL;
 
 public:
-    void add(Node& newData){
-        Node* newNode = new Node;
-        newNode->data = &newData;
+    void add(Node* newData){
+        Node* newNode = newData;
+        //newNode->data = newData;
         if(head == NULL){
             head = tail = newNode;
         }else{
@@ -69,13 +69,17 @@ public:
         for(int i = 0; i < input.size(); i++){
             SuffixTrieNode* tempRoot = root;
             for(int j = i; j < input.size(); j++){
-                tempRoot = tempRoot->nodeList->getNode(input[j]);
-                if(tempRoot == NULL){
+                SuffixTrieNode* temp = tempRoot->nodeList->getNode(input[j]);
+                if(temp == NULL){
                     Node* tempNode = new Node;
                     tempNode->nodeChar = input[j];
+                    tempNode->data = new SuffixTrieNode;
                     tempRoot->nodeList->add(tempNode);
+                    temp = tempNode->data;
                 }
+                tempRoot = temp;
             }
+            tempRoot->endOfWord = i;
         }
     }
     void search(string input){
@@ -84,5 +88,5 @@ public:
 };
 
 int main() {
-
+    SuffixTrie t("bananabanaba$");
 }
