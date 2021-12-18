@@ -85,17 +85,25 @@ struct SuffixTrieNode{
     int endOfWord = -1;
 };
 
+size_t my_strlen(const char *str)
+{
+    size_t i;
+    for (i = 0; str[i]; i++);
+    return i;
+}
+
 class SuffixTrie {
 private:
     SuffixTrieNode *root;
 public:
-    SuffixTrie(string input)
+    SuffixTrie(char input[])
     {
+        size_t sz = my_strlen(input);
         root = new SuffixTrieNode;
-        for (int i = 0; i < input.size(); i++)
+        for (int i = 0; i < sz; i++)
         {
             SuffixTrieNode *tempRoot = root;
-            for (int j = i; j < input.size(); j++)
+            for (int j = i; j < sz; j++)
             {
                 SuffixTrieNode *temp = tempRoot->nodeList->getNode(input[j]);
                 if (temp == NULL)
@@ -112,10 +120,11 @@ public:
         }
     }
 
-    void Search(string input)
+    void Search(char input[])
     {
+        size_t sz = my_strlen(input);
         SuffixTrieNode *temp = root;
-        for (int i = 0; i < input.size(); i++)
+        for (int i = 0; i < sz; i++)
         {
             temp = temp->nodeList->getNode(input[i]);
             if (temp == NULL)
