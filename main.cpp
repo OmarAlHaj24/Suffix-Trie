@@ -1,7 +1,7 @@
 /**
  * Alaa Mahmoud Ebrahim 20190105
  * Rana Ihab Ahmed      20190207
- * Omar Khaled Alhaj    20190351
+ * Omar Khaled Al Haj   20190351
  */
 
 #include <iostream>
